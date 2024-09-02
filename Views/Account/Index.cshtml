@@ -1,0 +1,40 @@
+@model IEnumerable<YourNamespace.Models.Account>
+
+@{
+    ViewBag.Title = "Account List";
+}
+
+<h2>Account List</h2>
+
+<p>
+    @Html.ActionLink("Add New Account", "Create")
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Account Number</th>
+            <th>Customer</th>
+            <th>Balance</th>
+            <th>Account Type</th>
+            <th>Created Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.AccountNumber</td>
+                <td>@account.CustomerId</td>
+                <td>@account.Balance</td>
+                <td>@account.AccountType</td>
+                <td>@account.CreatedDate.ToShortDateString()</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = account.AccountId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = account.AccountId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

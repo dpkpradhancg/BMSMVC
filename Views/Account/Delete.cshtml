@@ -1,0 +1,21 @@
+@model YourNamespace.Models.Account
+
+@{
+    ViewBag.Title = "Delete Account";
+}
+
+<h2>Delete Account</h2>
+
+<div>
+    <h3>Are you sure you want to delete this account?</h3>
+    <p>@Model.AccountNumber</p>
+    <p>@Model.Balance</p>
+    <p>@Model.AccountType</p>
+
+    @using (Html.BeginForm("Delete", "Account", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.AccountId)
+        <button type="submit" class="btn btn-danger">Delete</button>
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
+    }
+</div>

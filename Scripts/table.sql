@@ -1,0 +1,25 @@
+CREATE DATABASE BankManagementSystem;
+USE BankManagementSystem;
+
+CREATE TABLE Users (
+    UserId INT IDENTITY PRIMARY KEY,
+    Username NVARCHAR(50) UNIQUE NOT NULL,
+    PasswordHash NVARCHAR(256) NOT NULL
+);
+
+CREATE TABLE Customers (
+    CustomerId INT IDENTITY PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Address NVARCHAR(255) NULL,
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    Phone NVARCHAR(15) NULL
+);
+
+CREATE TABLE Accounts (
+    AccountId INT IDENTITY PRIMARY KEY,
+    AccountNumber NVARCHAR(20) UNIQUE NOT NULL,
+    CustomerId INT FOREIGN KEY REFERENCES Customers(CustomerId),
+    Balance DECIMAL(18, 2) NOT NULL,
+    AccountType NVARCHAR(50) NOT NULL,
+    CreatedDate DATETIME DEFAULT GETDATE()
+);
