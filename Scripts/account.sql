@@ -79,3 +79,48 @@ BEGIN
     CLOSE AccountCursor;
     DEALLOCATE AccountCursor;
 END;
+
+
+CREATE PROCEDURE sp_UpdateBalanceForCustomerAccounts_Add100
+    @CustomerId INT
+AS
+BEGIN
+    DECLARE @AccountId INT;
+    DECLARE @AccountNumber NVARCHAR(20);
+    DECLARE @Balance DECIMAL(18, 2);
+    DECLARE @AccountType NVARCHAR(50);
+ 
+    -- Declare a cursor to iterate over each account for the given customer
+    DECLARE AccountCursor CURSOR FOR
+    SELECT AccountId, AccountNumber, Balance, AccountType
+    FROM Accounts
+    WHERE CustomerId = @CustomerId;
+ 
+    -- Open the cursor
+    OPEN AccountCursor;
+ 
+    -- Fetch the first row into the variables
+    FETCH NEXT FROM AccountCursor INTO @AccountId, @AccountNumber, @Balance, @AccountType;
+ 
+    -- Loop through the cursor
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Update the balance by adding 100
+        SET @Balance = @Balance + 100;
+ 
+        -- Call the sp_UpdateAccount stored procedure to update the account
+        EXEC sp_UpdateAccount 
+            @AccountId = @AccountId, 
+            @AccountNumber = @AccountNumber, 
+            @CustomerId = @CustomerId, 
+            @Balance = @Balance, 
+            @AccountType = @AccountType;
+ 
+        -- Fetch the next row
+        FETCH NEXT FROM AccountCursor INTO @AccountId, @AccountNumber, @Balance, @AccountType;
+    END;
+ 
+    -- Close and deallocate the cursor
+    CLOSE AccountCursor;
+    DEALLOCATE AccountCursor;
+END;
