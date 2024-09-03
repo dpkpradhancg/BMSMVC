@@ -41,3 +41,41 @@ AS
 BEGIN
     DELETE FROM Accounts WHERE AccountId = @AccountId;
 END
+
+
+
+CREATE PROCEDURE sp_UpdateBalanceForCustomerAccounts
+    @CustomerId INT
+AS
+BEGIN
+    DECLARE @AccountId INT;
+    DECLARE @Balance DECIMAL(18, 2);
+ 
+    -- Declare a cursor to iterate over each account for the given customer
+    DECLARE AccountCursor CURSOR FOR
+    SELECT AccountId, Balance
+    FROM Accounts
+    WHERE CustomerId = @CustomerId;
+ 
+    -- Open the cursor
+    OPEN AccountCursor;
+ 
+    -- Fetch the first row into the variables
+    FETCH NEXT FROM AccountCursor INTO @AccountId, @Balance;
+ 
+    -- Loop through the cursor
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Update the balance by subtracting 100
+        UPDATE Accounts
+        SET Balance = @Balance - 100
+        WHERE AccountId = @AccountId;
+ 
+        -- Fetch the next row
+        FETCH NEXT FROM AccountCursor INTO @AccountId, @Balance;
+    END;
+ 
+    -- Close and deallocate the cursor
+    CLOSE AccountCursor;
+    DEALLOCATE AccountCursor;
+END;
