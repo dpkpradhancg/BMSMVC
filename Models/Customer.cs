@@ -1,17 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BMSMVC.Models
+using System.ComponentModel.DataAnnotations;
+ 
+namespace YourNamespace.Models
 {
     public class Customer
-{
-    public int CustomerId { get; set; }
-    public string Name { get; set; }
-    public string Address { get; set; }
-    public string Email { get; set; }
-    public string Phone { get; set; }
-}
-
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
+ 
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
+ 
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string Email { get; set; }
+ 
+        [Required(ErrorMessage = "Phone is required")]
+        [Phone(ErrorMessage = "Invalid Phone Number")]
+        public string Phone { get; set; }
+    }
 }

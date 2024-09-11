@@ -1,28 +1,38 @@
 @model YourNamespace.Models.Customer
-
+ 
 @{
     ViewBag.Title = "Add Customer";
 }
-
+ 
 <h2>Add Customer</h2>
-
+ 
 @using (Html.BeginForm("Create", "Customer", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
+ 
     <div class="form-group">
-        <label for="Name">Name</label>
+<label for="Name">Name</label>
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="Address">Address</label>
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+<label for="Address">Address</label>
         @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
+        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+<label for="Email">Email</label>
         @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-    </div>
-    <div class="form-group">
-        <label for="Phone">Phone</label>
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+<label for="Phone">Phone</label>
         @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
-    </div>
-    <button type="submit" class="btn btn-primary">Add Customer</button>
+        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+</div>
+<button type="submit" class="btn btn-primary">Add Customer</button>
+}
+ 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
